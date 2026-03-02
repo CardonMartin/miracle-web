@@ -3,100 +3,365 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Miracle | Fashion House</title>
+    <title>Miracle | Fashion Week</title>
     <style>
-        *{margin:0;padding:0;box-sizing:border-box}
-        :root{--black:#0a0a0a;--white:#fff;--gold:#c9a962;--gray:#1a1a1a}
-        body{font-family:'Helvetica Neue',sans-serif;background:var(--black);color:var(--white);overflow-x:hidden}
-        .loader{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--black);display:flex;justify-content:center;align-items:center;z-index:1000;transition:opacity .8s}
-        .loader.hidden{opacity:0;pointer-events:none}
-        .loader h1{font-size:3rem;letter-spacing:1.5rem;font-weight:100;animation:pulse 2s infinite}
-        @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-        nav{position:fixed;top:0;width:100%;padding:1.5rem 3rem;display:flex;justify-content:space-between;align-items:center;z-index:100;mix-blend-mode:difference}
-        .logo{font-size:1.2rem;letter-spacing:.8rem;font-weight:300}
-        .menu a{color:var(--white);text-decoration:none;margin-left:2rem;font-size:.7rem;letter-spacing:.2rem;text-transform:uppercase;transition:color .3s}
-        .menu a:hover{color:var(--gold)}
-        .hero{height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative;background:linear-gradient(180deg,rgba(0,0,0,.4),rgba(0,0,0,.7))}
-        .hero-bg{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:-1;filter:brightness(.5)}
-        .hero h1{font-size:6rem;letter-spacing:2.5rem;font-weight:100;text-transform:uppercase;margin-bottom:1rem}
-        .hero .subtitle{font-size:.9rem;letter-spacing:.6rem;color:var(--gold);text-transform:uppercase}
-        .hero .tagline{margin-top:2rem;font-size:.75rem;letter-spacing:.3rem;color:#888;text-transform:uppercase}
-        .scroll-indicator{position:absolute;bottom:2rem;animation:bounce 2s infinite;font-size:1.5rem;color:var(--gold)}
-        @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(10px)}}
-        .collection{padding:6rem 4rem;background:var(--gray)}
-        .collection-header{text-align:center;margin-bottom:4rem}
-        .collection-header h2{font-size:2.5rem;font-weight:100;letter-spacing:1rem;margin-bottom:1rem}
-        .collection-header p{color:#666;font-size:.8rem;letter-spacing:.3rem;text-transform:uppercase}
-        .grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1.5rem}
-        .card{position:relative;aspect-ratio:3/4;overflow:hidden;cursor:pointer;background:var(--black)}
-        .card img{width:100%;height:100%;object-fit:cover;transition:transform .6s;filter:grayscale(20%)}
-        .card:hover img{transform:scale(1.1);filter:grayscale(0)}
-        .card-number{position:absolute;top:1rem;left:1rem;font-size:.7rem;letter-spacing:.2rem;color:var(--gold);z-index:2}
-        .card-overlay{position:absolute;bottom:0;left:0;width:100%;padding:1.5rem;background:linear-gradient(transparent,rgba(0,0,0,.95));transform:translateY(100%);transition:transform .4s}
-        .card:hover .card-overlay{transform:translateY(0)}
-        .card-overlay h3{font-size:.9rem;font-weight:300;letter-spacing:.2rem;margin-bottom:.3rem}
-        .card-overlay p{font-size:.65rem;color:#888;letter-spacing:.15rem;text-transform:uppercase}
-        .click-hint{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);opacity:0;transition:opacity .3s;font-size:.7rem;letter-spacing:.2rem;color:var(--white);text-transform:uppercase;border:1px solid var(--white);padding:.5rem 1rem;white-space:nowrap}
-        .card:hover .click-hint{opacity:1}
-        .modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.95);z-index:1000;display:none;opacity:0;transition:opacity .4s}
-        .modal.active{display:block;opacity:1}
-        .modal-content{width:90%;max-width:1400px;height:90%;margin:5% auto;position:relative}
-        .modal-close{position:absolute;top:-40px;right:0;font-size:2rem;color:var(--white);cursor:pointer;background:0;border:0}
-        .modal-close:hover{color:var(--gold)}
-        .modal-title{text-align:center;margin-bottom:2rem}
-        .modal-title h2{font-size:1.5rem;font-weight:100;letter-spacing:.5rem;margin-bottom:.5rem}
-        .modal-title p{font-size:.7rem;color:var(--gold);letter-spacing:.2rem;text-transform:uppercase}
-        .modal-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;height:calc(100% - 100px);overflow-y:auto}
-        .modal-grid img{width:100%;height:250px;object-fit:cover;transition:transform .3s;cursor:pointer}
-        .modal-grid img:hover{transform:scale(1.05)}
-        .about{padding:8rem 4rem;background:var(--black);text-align:center;background-image:linear-gradient(rgba(0,0,0,.9),rgba(0,0,0,.9)),url('https://images.unsplash.com/photo-1445205170230-053b83016050?w=1920');background-size:cover;background-position:center;background-attachment:fixed}
-        .about h2{font-size:1.8rem;margin-bottom:2rem;font-weight:100;letter-spacing:.8rem}
-        .about p{max-width:600px;margin:0 auto;line-height:1.9;color:#888;font-size:.9rem}
-        .contact{padding:5rem 4rem;background:var(--gray);text-align:center}
-        .contact h2{font-size:1.5rem;margin-bottom:1.5rem;font-weight:100;letter-spacing:.5rem}
-        .contact a{color:var(--gold);text-decoration:none;font-size:1rem;letter-spacing:.2rem}
-        footer{padding:2rem;text-align:center;font-size:.6rem;color:#444;letter-spacing:.2rem;text-transform:uppercase}
-        @media(max-width:1024px){.grid,.modal-grid{grid-template-columns:repeat(3,1fr)}.hero h1{font-size:4rem;letter-spacing:1.5rem}}
-        @media(max-width:768px){nav{padding:1rem 1.5rem}.menu{display:none}.hero h1{font-size:2.5rem;letter-spacing:1rem}.collection{padding:3rem 1.5rem}.grid,.modal-grid{grid-template-columns:repeat(2,1fr)}}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --black: #0a0a0a;
+            --white: #ffffff;
+            --gold: #c9a962;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', sans-serif;
+            background: var(--black);
+            color: var(--white);
+            overflow-x: hidden;
+        }
+
+        /* Loader */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--black);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.8s ease;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader h1 {
+            font-size: 4rem;
+            letter-spacing: 2rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 2rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            mix-blend-mode: difference;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            letter-spacing: 0.5rem;
+            font-weight: 300;
+        }
+
+        .menu a {
+            color: var(--white);
+            text-decoration: none;
+            margin-left: 2rem;
+            font-size: 0.8rem;
+            letter-spacing: 0.2rem;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        .menu a:hover {
+            color: var(--gold);
+        }
+
+        /* Hero */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.8) 100%);
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            filter: brightness(0.7);
+        }
+
+        .hero h1 {
+            font-size: 8rem;
+            letter-spacing: 3rem;
+            font-weight: 100;
+            text-transform: uppercase;
+        }
+
+        .hero p {
+            margin-top: 1rem;
+            font-size: 1rem;
+            letter-spacing: 0.5rem;
+            color: var(--gold);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 3rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(10px); }
+        }
+
+        /* Collection Grid */
+        .collection {
+            padding: 5rem 4rem;
+        }
+
+        .collection-title {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            font-weight: 100;
+            letter-spacing: 1rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            position: relative;
+            aspect-ratio: 3/4;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .card:hover img {
+            transform: scale(1.1);
+        }
+
+        .card-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 2rem;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            transform: translateY(100%);
+            transition: transform 0.4s ease;
+        }
+
+        .card:hover .card-overlay {
+            transform: translateY(0);
+        }
+
+        .card-overlay h3 {
+            font-size: 1.2rem;
+            font-weight: 300;
+            letter-spacing: 0.3rem;
+        }
+
+        .card-overlay p {
+            font-size: 0.8rem;
+            color: var(--gold);
+            margin-top: 0.5rem;
+        }
+
+        /* About Section */
+        .about {
+            padding: 8rem 4rem;
+            background: #111;
+            text-align: center;
+        }
+
+        .about h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            font-weight: 100;
+            letter-spacing: 0.5rem;
+        }
+
+        .about p {
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.8;
+            color: #888;
+        }
+
+        /* Contact */
+        .contact {
+            padding: 5rem 4rem;
+            text-align: center;
+        }
+
+        .contact h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            font-weight: 100;
+        }
+
+        .contact a {
+            color: var(--gold);
+            text-decoration: none;
+            font-size: 1.2rem;
+            letter-spacing: 0.3rem;
+        }
+
+        footer {
+            padding: 2rem;
+            text-align: center;
+            font-size: 0.7rem;
+            color: #444;
+            letter-spacing: 0.2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav { padding: 1.5rem 2rem; }
+            .hero h1 { font-size: 3rem; letter-spacing: 1rem; }
+            .collection { padding: 3rem 2rem; }
+            .about, .contact { padding: 4rem 2rem; }
+        }
     </style>
 </head>
 <body>
-        <div class="loader" id="loader"><h1>MIRACLE</h1></div>
-    <nav><div class="logo">MIRACLE</div><div class="menu"><a href="#collection">COLLECTION</a><a href="#about">ABOUT</a><a href="#contact">CONTACT</a></div></nav>
-    <section class="hero"><img src="https://images.unsplash.com/photo-1558171813-4c088753af8f?w=1920" alt="Fashion" class="hero-bg"><h1>Miracle</h1><p class="subtitle">Spring / Summer 2025</p><p class="tagline">Fashion House • Paris • Milan • New York</p><div class="scroll-indicator">↓</div></section>
-    <section class="collection" id="collection"><div class="collection-header"><h2>THE COLLECTION</h2><p>Ten looks • One vision</p></div><div class="grid">
-        <div class="card" onclick="openModal('ss25')"><span class="card-number">01</span><img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600" alt="Look 1"><div class="click-hint">View Collection</div><div class="card-overlay"><h3>SPRING / SUMMER 2025</h3><p>Ethereal Dreams</p></div></div>
-        <div class="card" onclick="openModal('fw25')"><span class="card-number">02</span><img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600" alt="Look 2"><div class="click-hint">View Collection</div><div class="card-overlay"><h3>FALL / WINTER 2025</h3><p>Urban Noir</p></div></div>
-        <div class="card" onclick="openModal('resort25')"><span class="card-number">03</span><img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=600" alt="Look 3"><div class="click-hint">View Collection</div><div class="card-overlay"><h3>RESORT 2025</h3><p>Mediterranean Elegance</p></div></div>
-        <div class="card" onclick="openModal('prefall25')"><span class="card-number">04</span><img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=600" alt="Look 4"><div class="click-hint">View Collection</div><div class="card-overlay"><h3>PRE-FALL 2025</h3><p>Timeless Grace</p></div></div>
-        <div class="card" onclick="openModal('couture25')"><span class="card-number">05</span><img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=600" alt="Look 5"><div class="click-hint">View Collection</div><div class="card-overlay"><h3>COUTURE 2025</h3><p>Red Carpet</p></div></div>
-        <div class="card" onclick="openModal('ss24')"><span class="card-number">06</span><img src="https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=600" alt="Look 6"><div class="click-hint">View Collection</div><div class="card-overlay"><h3>SPRING / SUMMER 2024</h3><p>Minimalist Vision</p></div></div>
-        <div class="card" onclick="openModal('fw24')"><span class="card-number">07</span><img src="https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?w=600" alt="Look 7"><div class="click-hint">View Collection</div><div class="card-overlay"><h3>FALL / WINTER 2024</h3><p>Dark Romance</p></div></div>
-        <div class="card" onclick="openModal('resort24')"><span class="card-number">08</span><img src="https://images.unsplash.com/photo-1502716119720-b23a93e5fe1b?w=600" alt="Look 8"><div class="click-hint">View Collection</div><div class="card-overlay"><h3>RESORT 2024</h3><p>Coastal Dreams</p></div></div>
-        <div class="card" onclick="openModal('prefall24')"><span class="card-number">09</span><img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600" alt="Look 9"><div class="click-hint">View Collection</div><div class="card-overlay"><h3>PRE-FALL 2024</h3><p>Modern Heritage</p></div></div>
-        <div class="card" onclick="openModal('couture24')"><span class="card-number">10</span><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600" alt="Look 10"><div class="click-hint">View Collection</div><div class="card-overlay"><h3>COUTURE 2024</h3><p>Golden Era</p></div></div>
-    </div></section>
-    <section class="about" id="about"><h2>THE DESIGNER</h2><p>Miracle is a fashion house dedicated to pushing the boundaries of design. Each piece is crafted with precision, combining traditional craftsmanship with futuristic vision.</p></section>
-    <section class="contact" id="contact"><h2>GET IN TOUCH</h2><a href="mailto:contact@miracle.com">CONTACT@MIRACLE.COM</a></section>
-    <footer>© 2025 MIRACLE. ALL RIGHTS RESERVED.</footer>
-    <div class="modal" id="modal"><div class="modal-content"><button class="modal-close" onclick="closeModal()">✕</button><div class="modal-title"><h2 id="modal-title">COLLECTION</h2><p id="modal-subtitle">10 looks</p></div><div class="modal-grid" id="modal-grid"></div></div></div>
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <h1>MIRACLE</h1>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">MIRACLE</div>
+        <div class="menu">
+            <a href="#collection">COLLECTION</a>
+            <a href="#about">ABOUT</a>
+            <a href="#contact">CONTACT</a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1920" alt="Fashion" class="hero-bg">
+        <h1>Miracle</h1>
+        <p>SPRING / SUMMER 2025</p>
+        <div class="scroll-indicator">↓</div>
+    </section>
+
+    <!-- Collection -->
+    <section class="collection" id="collection">
+        <h2 class="collection-title">THE COLLECTION</h2>
+        <div class="grid">
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600" alt="Look 1">
+                <div class="card-overlay">
+                    <h3>LOOK 01</h3>
+                    <p>Ethereal Elegance</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600" alt="Look 2">
+                <div class="card-overlay">
+                    <h3>LOOK 02</h3>
+                    <p>Urban Sophistication</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=600" alt="Look 3">
+                <div class="card-overlay">
+                    <h3>LOOK 03</h3>
+                    <p>Red Carpet Dream</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=600" alt="Look 4">
+                <div class="card-overlay">
+                    <h3>LOOK 04</h3>
+                    <p>Avant-Garde</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1558171813-4c088753af8f?w=600" alt="Look 5">
+                <div class="card-overlay">
+                    <h3>LOOK 05</h3>
+                    <p>Minimalist Chic</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=600" alt="Look 6">
+                <div class="card-overlay">
+                    <h3>LOOK 06</h3>
+                    <p>Evening Glow</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section class="about" id="about">
+        <h2>THE DESIGNER</h2>
+        <p>Miracle is a fashion house dedicated to pushing the boundaries of design. Each piece is crafted with precision, combining traditional craftsmanship with futuristic vision. Our collections tell stories of elegance, innovation, and the endless pursuit of beauty.</p>
+    </section>
+
+    <!-- Contact -->
+    <section class="contact" id="contact">
+        <h2>GET IN TOUCH</h2>
+        <a href="mailto:contact@miracle.com">CONTACT@MIRACLE.COM</a>
+    </section>
+
+    <footer>
+        © 2025 MIRACLE. ALL RIGHTS RESERVED.
+    </footer>
+
     <script>
-    const collections = {
-        ss25:{title:'SPRING / SUMMER 2025',subtitle:'Ethereal Dreams',images:['https://images.unsplash.com/photo-1509631179647-0177331693ae?w=400','https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400','https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=400','https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=400','https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=400','https://images.unsplash.com/photo-1509631179647-0177331693ae?w=400','https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400','https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=400','https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=400','https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=400']},
-        fw25:{title:'FALL / WINTER 2025',subtitle:'Urban Noir',images:['https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=400','https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?w=400','https://images.unsplash.com/photo-1502716119720-b23a93e5fe1b?w=400','https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=400','https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400','https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=400','https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?w=400','https://images.unsplash.com/photo-1502716119720-b23a93e5fe1b?w=400','https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=400','
-                                                                       'w=400','https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400']},
-        resort25:{title:'RESORT 2025',subtitle:'Mediterranean Elegance',images:['https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=400','https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=400','https://images.unsplash.com/photo-1509631179647-0177331693ae?w=400','https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400','https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=400','https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=400','https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=400','https://images.unsplash.com/photo-1509631179647-0177331693ae?w=400','https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400','https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=400']},
-        prefall25:{title:'PRE-FALL 2025',subtitle:'Timeless Grace',images:['https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=400','https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400','https://images.unsplash.com/photo-1502716119720-b23a93e5fe1b?w=400','https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?w=400','https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=400','https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=400','https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400','https://images.unsplash.com/photo-1502716119720-b23a93e5fe1b?w=400','https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?w=400','https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=400']},
-        couture25:{title:'COUTURE 2025',subtitle:'Red Carpet',images:['https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=400','https://images.unsplash.com/photo-1509631179647-0177331693ae?w=400','https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400','https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=400','https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=400','https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=400','https://images.unsplash.com/photo-1509631179647-0177331693ae?w=400','https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400','https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=400','https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=400']},
-        ss24:{title:'SPRING / SUMMER 2024',subtitle:'Minimalist Vision',images:['https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=400','https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?w=400','https://images.unsplash.com/photo-1502716119720-b23a93e5fe1b?w=400','https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=400','https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400','https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=400','https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?w=400','https://images.unsplash.com/photo-1502716119720-b23a93e5fe1b?w=400','https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=400','https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400']},
-        fw24:{title:'FALL / WINTER 2024',subtitle:'Dark Romance',images:['https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?w=400','https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=400','https://images.unsplash.com/photo-1502716119720-b23a93e5fe1b?w=400','https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=400','https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400','https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?w=400','https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=400','https://images.unsplash.com/photo-1502716119720-b23a93e5fe1b?w=400','https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=400','https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400']},
-        resort24:{title:'RESORT 2024',subtitle:'Coastal Dreams',images:['https://images.unsplash.com/photo-1502716119720-b23a93e5fe1b?w=400','https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=400','https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400','https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=400','https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?w=400','https://images.unsplash.com/photo-1502716119720-b23a93e5fe1b?w=400','https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=400','https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400','https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=400','https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?w=400']},
-        prefall24:{title:'PRE-FALL 2024',subtitle:'Modern Heritage',images:['https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=400','https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400','https://images.unsplash.com/photo-1502716119720-b23a93e5fe1b?w=400','https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?w=400','https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=400','https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=400','https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400','https://images.unsplash.com/photo-1502716119720-b23a93e5fe1b?w=400','https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?w=400','https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=400']},
-        couture24:{title:'COUTURE 2024',subtitle:'Golden Era',images:['https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400','https://images.unsplash.com/photo-1509631179647-0177331693ae?w=400','https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400','https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=400','https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=400','https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400','https://images.unsplash.com/photo-1509631179647-0177331693ae?w=400','https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400','https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=400','https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=400']}
-    };
-    function openModal(id){const c=collections[id];document.getElementById('modal-title').textContent=c.title;document.getElementById('modal-subtitle').textContent=c.subtitle;const grid=document.getElementById('modal-grid');grid.innerHTML=c.images.map(img=>`<img src="${img}" alt="Look">`).join('');document.getElementById('modal').classList.add('active');document.body.style.overflow='hidden'}
-    function closeModal(){document.getElementById('modal').classList.remove('active');document.body.style.overflow='auto'}
-    window.addEventListener('load',()=>{setTimeout(()=>{document.getElementById('loader').classList.add('hidden')},2000)});
+        // Loader
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+            }, 2000);
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
     </script>
 </body>
 </html>
