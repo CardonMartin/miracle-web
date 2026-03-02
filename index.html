@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Miracle | Fashion Week</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --black: #0a0a0a;
+            --white: #ffffff;
+            --gold: #c9a962;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', sans-serif;
+            background: var(--black);
+            color: var(--white);
+            overflow-x: hidden;
+        }
+
+        /* Loader */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--black);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.8s ease;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader h1 {
+            font-size: 4rem;
+            letter-spacing: 2rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 2rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            mix-blend-mode: difference;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            letter-spacing: 0.5rem;
+            font-weight: 300;
+        }
+
+        .menu a {
+            color: var(--white);
+            text-decoration: none;
+            margin-left: 2rem;
+            font-size: 0.8rem;
+            letter-spacing: 0.2rem;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        .menu a:hover {
+            color: var(--gold);
+        }
+
+        /* Hero */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.8) 100%);
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            filter: brightness(0.7);
+        }
+
+        .hero h1 {
+            font-size: 8rem;
+            letter-spacing: 3rem;
+            font-weight: 100;
+            text-transform: uppercase;
+        }
+
+        .hero p {
+            margin-top: 1rem;
+            font-size: 1rem;
+            letter-spacing: 0.5rem;
+            color: var(--gold);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 3rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(10px); }
+        }
+
+        /* Collection Grid */
+        .collection {
+            padding: 5rem 4rem;
+        }
+
+        .collection-title {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            font-weight: 100;
+            letter-spacing: 1rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            position: relative;
+            aspect-ratio: 3/4;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .card:hover img {
+            transform: scale(1.1);
+        }
+
+        .card-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 2rem;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            transform: translateY(100%);
+            transition: transform 0.4s ease;
+        }
+
+        .card:hover .card-overlay {
+            transform: translateY(0);
+        }
+
+        .card-overlay h3 {
+            font-size: 1.2rem;
+            font-weight: 300;
+            letter-spacing: 0.3rem;
+        }
+
+        .card-overlay p {
+            font-size: 0.8rem;
+            color: var(--gold);
+            margin-top: 0.5rem;
+        }
+
+        /* About Section */
+        .about {
+            padding: 8rem 4rem;
+            background: #111;
+            text-align: center;
+        }
+
+        .about h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            font-weight: 100;
+            letter-spacing: 0.5rem;
+        }
+
+        .about p {
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.8;
+            color: #888;
+        }
+
+        /* Contact */
+        .contact {
+            padding: 5rem 4rem;
+            text-align: center;
+        }
+
+        .contact h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            font-weight: 100;
+        }
+
+        .contact a {
+            color: var(--gold);
+            text-decoration: none;
+            font-size: 1.2rem;
+            letter-spacing: 0.3rem;
+        }
+
+        footer {
+            padding: 2rem;
+            text-align: center;
+            font-size: 0.7rem;
+            color: #444;
+            letter-spacing: 0.2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav { padding: 1.5rem 2rem; }
+            .hero h1 { font-size: 3rem; letter-spacing: 1rem; }
+            .collection { padding: 3rem 2rem; }
+            .about, .contact { padding: 4rem 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <h1>MIRACLE</h1>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">MIRACLE</div>
+        <div class="menu">
+            <a href="#collection">COLLECTION</a>
+            <a href="#about">ABOUT</a>
+            <a href="#contact">CONTACT</a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1920" alt="Fashion" class="hero-bg">
+        <h1>Miracle</h1>
+        <p>SPRING / SUMMER 2025</p>
+        <div class="scroll-indicator">↓</div>
+    </section>
+
+    <!-- Collection -->
+    <section class="collection" id="collection">
+        <h2 class="collection-title">THE COLLECTION</h2>
+        <div class="grid">
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600" alt="Look 1">
+                <div class="card-overlay">
+                    <h3>LOOK 01</h3>
+                    <p>Ethereal Elegance</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600" alt="Look 2">
+                <div class="card-overlay">
+                    <h3>LOOK 02</h3>
+                    <p>Urban Sophistication</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=600" alt="Look 3">
+                <div class="card-overlay">
+                    <h3>LOOK 03</h3>
+                    <p>Red Carpet Dream</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=600" alt="Look 4">
+                <div class="card-overlay">
+                    <h3>LOOK 04</h3>
+                    <p>Avant-Garde</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1558171813-4c088753af8f?w=600" alt="Look 5">
+                <div class="card-overlay">
+                    <h3>LOOK 05</h3>
+                    <p>Minimalist Chic</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=600" alt="Look 6">
+                <div class="card-overlay">
+                    <h3>LOOK 06</h3>
+                    <p>Evening Glow</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section class="about" id="about">
+        <h2>THE DESIGNER</h2>
+        <p>Miracle is a fashion house dedicated to pushing the boundaries of design. Each piece is crafted with precision, combining traditional craftsmanship with futuristic vision. Our collections tell stories of elegance, innovation, and the endless pursuit of beauty.</p>
+    </section>
+
+    <!-- Contact -->
+    <section class="contact" id="contact">
+        <h2>GET IN TOUCH</h2>
+        <a href="mailto:contact@miracle.com">CONTACT@MIRACLE.COM</a>
+    </section>
+
+    <footer>
+        © 2025 MIRACLE. ALL RIGHTS RESERVED.
+    </footer>
+
+    <script>
+        // Loader
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+            }, 2000);
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
