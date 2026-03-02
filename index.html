@@ -109,7 +109,7 @@
             height: 100%;
             object-fit: cover;
             z-index: -1;
-            filter: brightness(0.6) contrast(1.1);
+            filter: brightness(0.5) contrast(1.1);
         }
 
         .hero h1 {
@@ -252,6 +252,7 @@
             text-transform: uppercase;
             border: 1px solid var(--white);
             padding: 0.5rem 1rem;
+            white-space: nowrap;
         }
 
         .card:hover .click-hint {
@@ -279,7 +280,7 @@
 
         .modal-content {
             width: 90%;
-            max-width: 1200px;
+            max-width: 1400px;
             height: 90%;
             margin: auto;
             position: relative;
@@ -293,6 +294,8 @@
             color: var(--white);
             cursor: pointer;
             transition: color 0.3s;
+            background: none;
+            border: none;
         }
 
         .modal-close:hover {
@@ -324,6 +327,19 @@
             gap: 1rem;
             height: calc(100% - 80px);
             overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .modal-grid::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .modal-grid::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+
+        .modal-grid::-webkit-scrollbar-thumb {
+            background: var(--gold);
         }
 
         .modal-grid img {
@@ -524,4 +540,11 @@
                 <div class="click-hint">View Collection</div>
                 <div class="card-overlay">
                     <h3>FALL / WINTER 2024</h3>
-                    <p>Dark Romance
+                    <p>Dark Romance</p>
+                </div>
+            </div>
+
+            <!-- Look 08 -->
+            <div class="card" onclick="openModal('resort24')">
+                <span class="card-number">08</span>
+                <img src="https://images.unsplash.com/photo-1502716119720-b23a93e5fe1b?w=600"
